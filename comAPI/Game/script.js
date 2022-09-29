@@ -1,43 +1,35 @@
-var requesturl = "https://akabab.github.io/superhero-api/api/all.json";
-var request = new XMLHttpRequest();
+var requesturl = "https://akabab.github.io/carta-api/api/all.json";
 var deckJogador = [];
 var deckMaquina = [];
 var cartaJogador;
-var superHero = [];
+var carta = [];
 var ganhador = 0;
 var placar = [0,0];
 
-request.open('GET', requesturl);
-request.responseType = 'json';
-request.send();
-
-function requestJSON(){
-request.onload = function() {
-    var carta = request.response;
-
-    for(i = 0; i< carta.length;i++) {
-            superHero.id = carta.id,
-            superHero.name = carta.name,
-            superHero.intelligence = carta.powerstats.intelligence,
-            superHero.strength = carta.powerstats.strength,
-            superHero.speed = carta.powerstats.speed,
-            superHero.durability = carta.powerstas.durability,
-            superHero.power = carta.powerstats.power,
-            superHero.combat = carta.powerstats.combat,
-            superHero.image = carta.images.lg
-        }
-        return superHero;
-  }
-
-  
-}
-
-
-
-
-
 function iniciar(){
-    requestJSON();
+
+    const json = fetch(requesturl,{
+        method:'GET'
+    }).then(function() {
+      console.log(json)
+
+      var array = Object.keys(json).map(i => JSON.parse(json[Number(i)]));
+    
+      carta = array.map(jsonData => {
+        return {
+          'id': jsonData.id,
+          'name': jsonData.name,
+          'intelligence': jsonData.intelligence,
+          'strength': jsonData.strength,
+          'speed': jsonData.speed,
+          'durability': jsonData.durability,
+          'power': jsonData.power,
+          'combat' : jsonData.combat,
+          'image' : jsonData.image,
+        }
+    });
+    });
+
     divideCartas();
     sortear();
     document.getElementById("mensagem").innerHTML = "Escolha o atributo do herói";
@@ -48,20 +40,20 @@ function iniciar(){
 }
 
 function divideCartas() {
-    let cartaAux = superHero.slice();
-    let superHero;
+    let cartaAux = carta.slice();
+    let carta;
   
     deckJogador = [];
     deckMaquina = [];
   
     while (cartaAux.length > 0) {
-        superHero = parseInt(Math.random() * cartaAux.length);
-        deckJogador.push(cartaAux[superHero]);
-        cartaAux.splice(superHero, 1);
+        carta = parseInt(Math.random() * cartaAux.length);
+        deckJogador.push(cartaAux[carta]);
+        cartaAux.splice(carta, 1);
     
-        superHero = parseInt(Math.random() * cartaAux.length);
-        deckMaquina.push(cartaAux[superHero]);
-        cartaAux.splice(superHero, 1);
+        carta = parseInt(Math.random() * cartaAux.length);
+        deckMaquina.push(cartaAux[carta]);
+        cartaAux.splice(carta, 1);
     }
 }
 
@@ -71,7 +63,7 @@ function sortear(){
         let numeroCartaJogador = parseInt(Math.random() * deckJogador.length);
         let numerocarta = parseInt(Math.random() * deckMaquina.length);
         cartaJogador = deckJogador[numeroCartaJogador];
-        superHero = deckMaquina[numerocarta];
+        carta = deckMaquina[numerocarta];
         exibirCartaJogador();
         exibirAtributos();
         limpacarta();
@@ -81,23 +73,23 @@ function sortear(){
     }else{
         placar = [0,0];
         cartaJogador = null;
-        superHero = null;
+        carta = null;
     }
 }
 
 function exibirCartaJogador(){
-    let superHero = document.getElementById("areaJogador");
-    superHero.style.backgroundImage = `url(${cartaJogador.image})`;
+    let carta = document.getElementById("areaJogador");
+    carta.style.backgroundImage = `url(${cartaJogador.image})`;
 }
 
 function exibircarta(){
     let maquina = document.getElementById("areaMaquina");
-    let name = `<p class="nomeCarta">${superHero.name}</p>`;
-    maquina.style.backgroundImage = `url(${superHero.image})`; 
+    let name = `<p class="nomeCarta">${carta.name}</p>`;
+    maquina.style.backgroundImage = `url(${carta.image})`; 
     let opcoes = document.getElementById("atributos-maquina");
     let texto = "";
     for(let atributo in carta.atributos){
-        texto+= "<p type='text' name='atributo' value='" + atributo + "'>" + atributo + ": " + superHero.atributos[atributo] + "</p>";
+        texto+= "<p type='text' name='atributo' value='" + atributo + "'>" + atributo + ": " + carta.atributos[atributo] + "</p>";
     }
     opcoes.innerHTML = name + texto;
 }
@@ -140,7 +132,7 @@ function jogar(){
     let atributo = atributoSelecionado();
     let resultado = document.getElementById("mensagem");
     let valorCartaJogador = cartaJogador.atributos[atributo];
-    let valorcarta = superHero.atributos[atributo];
+    let valorcarta = carta.atributos[atributo];
     document.getElementById("sorteio").disabled = false;
     document.getElementById("joga").disabled = true;
 

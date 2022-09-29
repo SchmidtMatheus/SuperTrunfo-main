@@ -12,15 +12,15 @@
 <body>
     <main class="container">
         <h2>Cadastro de Super Herói</h2>
-        <form>
+        <form id="formHero">
             <div class="input-field">
                 <input type="text" name="name" id="name"
-                    placeholder="Nome do Herói">
+                    placeholder="Nome do Herói" required>
                 <div class="underline"></div>
             </div>
 
             <div class="input-field">
-                <input type="text" name="picture" id="picture"
+                <input type="text" name="picture" id="picture" required 
                     placeholder="URL da foto">
                 <div class="underline"></div>
             </div>
@@ -28,37 +28,37 @@
             <h3>Atributos:</h3>
             
             <div class="input-field">
-                <input type="text" name="intelligence" id="intelligence"
-                    placeholder="Inteligência">
+                <input type="number" name="intelligence" id="intelligence"
+                    placeholder="Inteligência" required>
             </div>
 
             <div class="input-field">
-                <input type="text" name="strength" id="strength"
-                    placeholder="Força">               
+                <input type="number" name="strength" id="strength"
+                    placeholder="Força" required>               
             </div>
 
             <div class="input-field">
-                <input type="text" name="speed" id="speed"
-                    placeholder="Velocidade">               
+                <input type="number" name="speed" id="speed"
+                    placeholder="Velocidade" required>               
             </div>
 
             <div class="input-field">
-                <input type="text" name="durability" id="durability"
-                    placeholder="Resistência">               
+                <input type="number" name="durability" id="durability"
+                    placeholder="Resistência" required>               
             </div>
 
             <div class="input-field">
-                <input type="text" name="power" id="power"
-                    placeholder="Poder">               
+                <input type="number" name="power" id="power"
+                    placeholder="Poder" required>               
             </div>
 
             <div class="input-field">
-                <input type="text" name="combat" id="combat"
-                    placeholder="Combate">
+                <input type="number" name="combat" id="combat"
+                    placeholder="Combate" required>
                 <div class="underline"></div>
             </div>
 
-            <input onclick="AddHero()" type="button" value="Cadastrar"></input>
+            <input id="addHero" onclick="AddHero()" type="submit" value="Cadastrar"></input>
         </form>
         
         </div>
